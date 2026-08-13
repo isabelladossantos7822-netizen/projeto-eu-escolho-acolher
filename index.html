@@ -1,1 +1,1520 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Projeto Eu Escolho Acolher</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f8;
+    color: #263238;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #176b87, #4aa96c);
+}
+
+.login-box {
+    background: white;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.15);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo h1 {
+    color: #176b87;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.logo p {
+    color: #666;
+    font-size: 14px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    margin-top: 7px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn {
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    background: #176b87;
+    margin: 3px;
+}
+
+.btn:hover {
+    opacity: .9;
+}
+
+.btn-green {
+    background: #4aa96c;
+}
+
+.btn-red {
+    background: #d9534f;
+}
+
+.btn-gray {
+    background: #607d8b;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #123d4a;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 13px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: transparent;
+    color: white;
+}
+
+.sidebar button:hover {
+    background: rgba(255,255,255,.12);
+}
+
+.main {
+    flex: 1;
+    padding: 25px;
+}
+
+.topbar {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
+.card h3 {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.card strong {
+    font-size: 28px;
+    color: #176b87;
+}
+
+.section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    margin-bottom: 18px;
+    color: #176b87;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background: #f1f5f7;
+}
+
+.status {
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-pendente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-confirmado {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-cancelado {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media(max-width: 800px) {
+
+    .app {
+        display: block;
+    }
+
+    .sidebar {
+        display: none;
+        width: 100%;
+    }
+
+    .sidebar.active {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: block;
+        background: #123d4a;
+        color: white;
+        padding: 15px;
+    }
+
+    .main {
+        padding: 12px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-box">
+
+        <div class="logo">
+            <h1>Projeto Eu Escolho Acolher</h1>
+            <p>Sistema Administrativo</p>
+        </div>
+
+        <label>Usuário</label>
+        <input id="loginUser" type="text" placeholder="Digite o usuário">
+
+        <label>Senha</label>
+        <input id="loginPassword" type="password" placeholder="Digite a senha">
+
+        <button class="btn" style="width:100%;" onclick="login()">
+            Entrar
+        </button>
+
+        <p id="loginError"
+           style="color:#d9534f;margin-top:15px;text-align:center;">
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- SISTEMA -->
+
+<div id="system" class="hidden">
+
+    <div class="mobile-menu">
+        <button class="btn" onclick="toggleMenu()">☰ Menu</button>
+    </div>
+
+    <div class="app">
+
+        <!-- MENU -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <h2>Eu Escolho Acolher</h2>
+
+            <button onclick="showPage('dashboard')">
+                🏠 Dashboard
+            </button>
+
+            <button onclick="showPage('agenda')">
+                📅 Agenda
+            </button>
+
+            <button onclick="showPage('pacientes')">
+                👥 Pacientes
+            </button>
+
+            <button onclick="showPage('profissionais')">
+                👩‍⚕️ Profissionais
+            </button>
+
+            <button onclick="showPage('relatorio')">
+                🖨️ Relatório do dia
+            </button>
+
+            <button onclick="logout()">
+                🚪 Sair
+            </button>
+
+        </aside>
+
+
+        <!-- CONTEÚDO -->
+
+        <main class="main">
+
+            <div class="topbar">
+
+                <div>
+                    <h2 id="pageTitle">
+                        Dashboard
+                    </h2>
+
+                    <p id="userRole"></p>
+                </div>
+
+                <button class="btn btn-red"
+                        onclick="logout()">
+                    Sair
+                </button>
+
+            </div>
+
+
+            <!-- DASHBOARD -->
+
+            <section id="dashboardPage">
+
+                <div class="cards">
+
+                    <div class="card">
+                        <h3>Pacientes</h3>
+                        <strong id="totalPacientes">0</strong>
+                    </div>
+
+                    <div class="card">
+                        <h3>Profissionais</h3>
+                        <strong id="totalProfissionais">0</strong>
+                    </div>
+
+                    <div class="card">
+                        <h3>Agendamentos hoje</h3>
+                        <strong id="totalHoje">0</strong>
+                    </div>
+
+                    <div class="card">
+                        <h3>Confirmados</h3>
+                        <strong id="totalConfirmados">0</strong>
+                    </div>
+
+                </div>
+
+                <div class="section">
+
+                    <h2>Bem-vinda ao sistema</h2>
+
+                    <p>
+                        Este sistema foi desenvolvido para organizar
+                        os atendimentos do Projeto Eu Escolho Acolher.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Utilize o menu para acessar pacientes,
+                        profissionais e agenda.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- AGENDA -->
+
+            <section id="agendaPage" class="hidden">
+
+                <div class="section">
+
+                    <h2>Novo agendamento</h2>
+
+                    <div class="form-grid">
+
+                        <div>
+                            <label>Paciente</label>
+                            <select id="agendaPaciente"></select>
+                        </div>
+
+                        <div>
+                            <label>Profissional</label>
+                            <select id="agendaProfissional"></select>
+                        </div>
+
+                        <div>
+                            <label>Data</label>
+                            <input type="date" id="agendaData">
+                        </div>
+
+                        <div>
+                            <label>Horário</label>
+                            <input type="time" id="agendaHora">
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-green"
+                            onclick="addAgendamento()">
+                        + Agendar
+                    </button>
+
+                </div>
+
+
+                <div class="section">
+
+                    <h2>Agenda</h2>
+
+                    <label>Filtrar por data</label>
+
+                    <input type="date"
+                           id="filtroData"
+                           onchange="renderAgenda()">
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Horário</th>
+                                    <th>Paciente</th>
+                                    <th>Profissional</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="agendaTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- PACIENTES -->
+
+            <section id="pacientesPage" class="hidden">
+
+                <div class="section">
+
+                    <h2>Cadastrar paciente</h2>
+
+                    <div class="form-grid">
+
+                        <div>
+                            <label>Nome completo</label>
+                            <input id="pacienteNome"
+                                   placeholder="Nome do paciente">
+                        </div>
+
+                        <div>
+                            <label>WhatsApp</label>
+                            <input id="pacienteWhatsApp"
+                                   placeholder="Ex.: 5521999999999">
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-green"
+                            onclick="addPaciente()">
+                        + Cadastrar paciente
+                    </button>
+
+                </div>
+
+
+                <div class="section">
+
+                    <h2>Pacientes cadastrados</h2>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>WhatsApp</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="pacientesTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- PROFISSIONAIS -->
+
+            <section id="profissionaisPage" class="hidden">
+
+                <div class="section">
+
+                    <h2>Cadastrar profissional</h2>
+
+                    <div class="form-grid">
+
+                        <div>
+                            <label>Nome</label>
+                            <input id="profissionalNome"
+                                   placeholder="Nome do profissional">
+                        </div>
+
+                        <div>
+                            <label>Especialidade</label>
+                            <input id="profissionalEspecialidade"
+                                   placeholder="Ex.: Psicologia">
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-green"
+                            onclick="addProfissional()">
+                        + Cadastrar profissional
+                    </button>
+
+                </div>
+
+
+                <div class="section">
+
+                    <h2>Profissionais</h2>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Especialidade</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="profissionaisTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RELATÓRIO -->
+
+            <section id="relatorioPage" class="hidden">
+
+                <div class="section">
+
+                    <h2>Relação de pacientes do dia</h2>
+
+                    <label>Data</label>
+
+                    <input type="date"
+                           id="relatorioData"
+                           onchange="renderRelatorio()">
+
+                    <br>
+
+                    <button class="btn"
+                            onclick="window.print()">
+                        🖨️ Imprimir relação
+                    </button>
+
+                </div>
+
+                <div class="section">
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Horário</th>
+                                    <th>Paciente</th>
+                                    <th>Profissional</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="relatorioTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DADOS TEMPORÁRIOS
+========================= */
+
+let pacientes =
+JSON.parse(localStorage.getItem("pacientes")) || [];
+
+let profissionais =
+JSON.parse(localStorage.getItem("profissionais")) || [];
+
+let agendamentos =
+JSON.parse(localStorage.getItem("agendamentos")) || [];
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+    const user =
+    document.getElementById("loginUser").value.trim();
+
+    const password =
+    document.getElementById("loginPassword").value.trim();
+
+    /*
+      LOGIN DEMONSTRATIVO
+
+      Secretaria:
+      usuário: secretaria
+      senha: 1234
+
+      RT:
+      usuário: rt
+      senha: 1234
+
+      Presidente:
+      usuário: presidente
+      senha: 1234
+    */
+
+    let role = "";
+
+    if(user === "secretaria" && password === "1234") {
+        role = "Secretaria";
+    }
+
+    if(user === "rt" && password === "1234") {
+        role = "RT";
+    }
+
+    if(user === "presidente" && password === "1234") {
+        role = "Presidente";
+    }
+
+    if(!role) {
+
+        document.getElementById("loginError").innerText =
+        "Usuário ou senha inválidos.";
+
+        return;
+    }
+
+    localStorage.setItem("loggedUser", role);
+
+    document.getElementById("loginScreen")
+    .classList.add("hidden");
+
+    document.getElementById("system")
+    .classList.remove("hidden");
+
+    document.getElementById("userRole")
+    .innerText = "Usuário: " + role;
+
+    updateDashboard();
+    loadSelects();
+    renderAgenda();
+    renderPacientes();
+    renderProfissionais();
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+    localStorage.removeItem("loggedUser");
+
+    location.reload();
+
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+function toggleMenu() {
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("active");
+
+}
+
+
+/* =========================
+   PÁGINAS
+========================= */
+
+function showPage(page) {
+
+    const pages = [
+        "dashboard",
+        "agenda",
+        "pacientes",
+        "profissionais",
+        "relatorio"
+    ];
+
+    pages.forEach(function(p) {
+
+        document
+        .getElementById(p + "Page")
+        .classList.add("hidden");
+
+    });
+
+    document
+    .getElementById(page + "Page")
+    .classList.remove("hidden");
+
+    const titles = {
+
+        dashboard: "Dashboard",
+        agenda: "Agenda",
+        pacientes: "Pacientes",
+        profissionais: "Profissionais",
+        relatorio: "Relatório do dia"
+
+    };
+
+    document.getElementById("pageTitle")
+    .innerText = titles[page];
+
+    if(page === "agenda") {
+        renderAgenda();
+    }
+
+    if(page === "relatorio") {
+        renderRelatorio();
+    }
+
+}
+
+
+/* =========================
+   PACIENTES
+========================= */
+
+function addPaciente() {
+
+    const nome =
+    document.getElementById("pacienteNome")
+    .value.trim();
+
+    const whatsapp =
+    document.getElementById("pacienteWhatsApp")
+    .value.trim();
+
+    if(!nome) {
+
+        alert("Informe o nome do paciente.");
+
+        return;
+    }
+
+    pacientes.push({
+
+        id: Date.now(),
+        nome: nome,
+        whatsapp: whatsapp
+
+    });
+
+    saveData();
+
+    document.getElementById("pacienteNome").value = "";
+    document.getElementById("pacienteWhatsApp").value = "";
+
+    renderPacientes();
+    loadSelects();
+    updateDashboard();
+
+}
+
+
+/* =========================
+   RENDER PACIENTES
+========================= */
+
+function renderPacientes() {
+
+    const table =
+    document.getElementById("pacientesTable");
+
+    table.innerHTML = "";
+
+    pacientes.forEach(function(paciente) {
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+
+            <td>${paciente.nome}</td>
+
+            <td>${paciente.whatsapp || "-"}</td>
+
+            <td>
+
+                <button class="btn btn-red"
+                onclick="deletePaciente(${paciente.id})">
+
+                    Excluir
+
+                </button>
+
+            </td>
+
+        `;
+
+        table.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================
+   EXCLUIR PACIENTE
+========================= */
+
+function deletePaciente(id) {
+
+    if(!confirm("Excluir este paciente?")) {
+        return;
+    }
+
+    pacientes =
+    pacientes.filter(p => p.id !== id);
+
+    saveData();
+
+    renderPacientes();
+    loadSelects();
+    updateDashboard();
+
+}
+
+
+/* =========================
+   PROFISSIONAIS
+========================= */
+
+function addProfissional() {
+
+    const nome =
+    document.getElementById("profissionalNome")
+    .value.trim();
+
+    const especialidade =
+    document.getElementById("profissionalEspecialidade")
+    .value.trim();
+
+    if(!nome || !especialidade) {
+
+        alert("Preencha nome e especialidade.");
+
+        return;
+    }
+
+    profissionais.push({
+
+        id: Date.now(),
+        nome: nome,
+        especialidade: especialidade
+
+    });
+
+    saveData();
+
+    document.getElementById("profissionalNome").value = "";
+    document.getElementById("profissionalEspecialidade").value = "";
+
+    renderProfissionais();
+    loadSelects();
+    updateDashboard();
+
+}
+
+
+/* =========================
+   RENDER PROFISSIONAIS
+========================= */
+
+function renderProfissionais() {
+
+    const table =
+    document.getElementById("profissionaisTable");
+
+    table.innerHTML = "";
+
+    profissionais.forEach(function(profissional) {
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+
+            <td>${profissional.nome}</td>
+
+            <td>${profissional.especialidade}</td>
+
+            <td>
+
+                <button class="btn btn-red"
+                onclick="deleteProfissional(${profissional.id})">
+
+                    Excluir
+
+                </button>
+
+            </td>
+
+        `;
+
+        table.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================
+   EXCLUIR PROFISSIONAL
+========================= */
+
+function deleteProfissional(id) {
+
+    if(!confirm("Excluir este profissional?")) {
+        return;
+    }
+
+    profissionais =
+    profissionais.filter(p => p.id !== id);
+
+    saveData();
+
+    renderProfissionais();
+    loadSelects();
+    updateDashboard();
+
+}
+
+
+/* =========================
+   CARREGAR SELECTS
+========================= */
+
+function loadSelects() {
+
+    const pacienteSelect =
+    document.getElementById("agendaPaciente");
+
+    const profissionalSelect =
+    document.getElementById("agendaProfissional");
+
+    pacienteSelect.innerHTML =
+    '<option value="">Selecione o paciente</option>';
+
+    profissionalSelect.innerHTML =
+    '<option value="">Selecione o profissional</option>';
+
+    pacientes.forEach(function(paciente) {
+
+        pacienteSelect.innerHTML += `
+
+            <option value="${paciente.id}">
+                ${paciente.nome}
+            </option>
+
+        `;
+
+    });
+
+    profissionais.forEach(function(profissional) {
+
+        profissionalSelect.innerHTML += `
+
+            <option value="${profissional.id}">
+                ${profissional.nome} - ${profissional.especialidade}
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   AGENDAMENTO
+========================= */
+
+function addAgendamento() {
+
+    const pacienteId =
+    Number(document.getElementById("agendaPaciente").value);
+
+    const profissionalId =
+    Number(document.getElementById("agendaProfissional").value);
+
+    const data =
+    document.getElementById("agendaData").value;
+
+    const hora =
+    document.getElementById("agendaHora").value;
+
+    if(!pacienteId ||
+       !profissionalId ||
+       !data ||
+       !hora) {
+
+        alert("Preencha todos os campos.");
+
+        return;
+    }
+
+    agendamentos.push({
+
+        id: Date.now(),
+
+        pacienteId: pacienteId,
+
+        profissionalId: profissionalId,
+
+        data: data,
+
+        hora: hora,
+
+        status: "Pendente"
+
+    });
+
+    saveData();
+
+    alert("Agendamento realizado.");
+
+    renderAgenda();
+    updateDashboard();
+
+}
+
+
+/* =========================
+   AGENDA
+========================= */
+
+function renderAgenda() {
+
+    const table =
+    document.getElementById("agendaTable");
+
+    if(!table) return;
+
+    table.innerHTML = "";
+
+    let filtro =
+    document.getElementById("filtroData").value;
+
+    if(!filtro) {
+
+        filtro =
+        new Date().toISOString().split("T")[0];
+
+        document.getElementById("filtroData").value =
+        filtro;
+
+    }
+
+    let lista =
+    agendamentos.filter(a => a.data === filtro);
+
+    lista.sort((a,b) =>
+        a.hora.localeCompare(b.hora)
+    );
+
+    lista.forEach(function(agenda) {
+
+        const paciente =
+        pacientes.find(p =>
+            p.id === agenda.pacienteId
+        );
+
+        const profissional =
+        profissionais.find(p =>
+            p.id === agenda.profissionalId
+        );
+
+        if(!paciente || !profissional) return;
+
+        const tr =
+        document.createElement("tr");
+
+        tr.innerHTML = `
+
+            <td>${agenda.hora}</td>
+
+            <td>${paciente.nome}</td>
+
+            <td>${profissional.nome}</td>
+
+            <td>
+
+                <span class="status ${
+                    agenda.status === "Confirmado"
+                    ? "status-confirmado"
+                    : agenda.status === "Cancelado"
+                    ? "status-cancelado"
+                    : "status-pendente"
+                }">
+
+                    ${agenda.status}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button class="btn btn-green"
+                onclick="confirmarAgendamento(${agenda.id})">
+
+                    Confirmar
+
+                </button>
+
+                <button class="btn"
+                onclick="whatsapp(${agenda.id})">
+
+                    WhatsApp
+
+                </button>
+
+                <button class="btn btn-red"
+                onclick="cancelarAgendamento(${agenda.id})">
+
+                    Cancelar
+
+                </button>
+
+            </td>
+
+        `;
+
+        table.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================
+   CONFIRMAR
+========================= */
+
+function confirmarAgendamento(id) {
+
+    const agenda =
+    agendamentos.find(a => a.id === id);
+
+    if(!agenda) return;
+
+    agenda.status = "Confirmado";
+
+    saveData();
+
+    renderAgenda();
+    updateDashboard();
+
+}
+
+
+/* =========================
+   CANCELAR
+========================= */
+
+function cancelarAgendamento(id) {
+
+    if(!confirm("Cancelar este agendamento?")) {
+        return;
+    }
+
+    const agenda =
+    agendamentos.find(a => a.id === id);
+
+    if(!agenda) return;
+
+    agenda.status = "Cancelado";
+
+    saveData();
+
+    renderAgenda();
+    updateDashboard();
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function whatsapp(id) {
+
+    const agenda =
+    agendamentos.find(a => a.id === id);
+
+    if(!agenda) return;
+
+    const paciente =
+    pacientes.find(p =>
+        p.id === agenda.pacienteId
+    );
+
+    const profissional =
+    profissionais.find(p =>
+        p.id === agenda.profissionalId
+    );
+
+    if(!paciente || !profissional) return;
+
+    if(!paciente.whatsapp) {
+
+        alert(
+            "Este paciente não possui número de WhatsApp cadastrado."
+        );
+
+        return;
+    }
+
+    const dataFormatada =
+    agenda.data.split("-").reverse().join("/");
+
+    const mensagem =
+    `Olá, ${paciente.nome}! ` +
+    `Estamos entrando em contato para confirmar ` +
+    `seu atendimento no Projeto Eu Escolho Acolher ` +
+    `no dia ${dataFormatada}, às ${agenda.hora}, ` +
+    `com ${profissional.nome}. ` +
+    `Por favor, confirme sua presença.`;
+
+    const numero =
+    paciente.whatsapp.replace(/\D/g, "");
+
+    const url =
+    "https://wa.me/" +
+    numero +
+    "?text=" +
+    encodeURIComponent(mensagem);
+
+    window.open(url, "_blank");
+
+}
+
+
+/* =========================
+   RELATÓRIO
+========================= */
+
+function renderRelatorio() {
+
+    const table =
+    document.getElementById("relatorioTable");
+
+    if(!table) return;
+
+    table.innerHTML = "";
+
+    let data =
+    document.getElementById("relatorioData").value;
+
+    if(!data) {
+
+        data =
+        new Date().toISOString().split("T")[0];
+
+        document.getElementById("relatorioData").value =
+        data;
+
+    }
+
+    let lista =
+    agendamentos.filter(a => a.data === data);
+
+    lista.sort((a,b) =>
+        a.hora.localeCompare(b.hora)
+    );
+
+    lista.forEach(function(agenda) {
+
+        const paciente =
+        pacientes.find(p =>
+            p.id === agenda.pacienteId
+        );
+
+        const profissional =
+        profissionais.find(p =>
+            p.id === agenda.profissionalId
+        );
+
+        if(!paciente || !profissional) return;
+
+        const tr =
+        document.createElement("tr");
+
+        tr.innerHTML = `
+
+            <td>${agenda.hora}</td>
+
+            <td>${paciente.nome}</td>
+
+            <td>${profissional.nome}</td>
+
+            <td>${agenda.status}</td>
+
+        `;
+
+        table.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function updateDashboard() {
+
+    document.getElementById("totalPacientes")
+    .innerText = pacientes.length;
+
+    document.getElementById("totalProfissionais")
+    .innerText = profissionais.length;
+
+    const hoje =
+    new Date().toISOString().split("T")[0];
+
+    const hojeLista =
+    agendamentos.filter(a =>
+        a.data === hoje
+    );
+
+    document.getElementById("totalHoje")
+    .innerText = hojeLista.length;
+
+    document.getElementById("totalConfirmados")
+    .innerText =
+    agendamentos.filter(a =>
+        a.status === "Confirmado"
+    ).length;
+
+}
+
+
+/* =========================
+   SALVAR
+========================= */
+
+function saveData() {
+
+    localStorage.setItem(
+        "pacientes",
+        JSON.stringify(pacientes)
+    );
+
+    localStorage.setItem(
+        "profissionais",
+        JSON.stringify(profissionais)
+    );
+
+    localStorage.setItem(
+        "agendamentos",
+        JSON.stringify(agendamentos)
+    );
+
+}
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+window.onload = function() {
+
+    const loggedUser =
+    localStorage.getItem("loggedUser");
+
+    if(loggedUser) {
+
+        document.getElementById("loginScreen")
+        .classList.add("hidden");
+
+        document.getElementById("system")
+        .classList.remove("hidden");
+
+        document.getElementById("userRole")
+        .innerText =
+        "Usuário: " + loggedUser;
+
+        updateDashboard();
+        loadSelects();
+        renderAgenda();
+        renderPacientes();
+        renderProfissionais();
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>
